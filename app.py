@@ -1,5 +1,6 @@
 import re
 import time
+import argparse
 
 import mlx.core as mx
 import streamlit as st
@@ -9,9 +10,16 @@ title = "MLX Chat"
 ver = "0.7.21"
 debug = False
 
+
+# arg processing
+parser = argparse.ArgumentParser(description="Process arguments for your application")
+parser.add_argument("--models", type=str, help="the txt file that contains the models list", default="models.txt")
+args = parser.parse_args()
+models_file = args.models
+
 assistant_greeting = "How may I help you?"
 
-with open('models.txt', 'r') as file:
+with open(models_file, 'r') as file:
     model_refs = [line.strip() for line in file.readlines() if not line.startswith('#')]
 
 model_refs = {k.strip(): v.strip() for k, v in [line.split("|") for line in model_refs]}
